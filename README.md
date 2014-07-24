@@ -1,32 +1,21 @@
 Common image routines for javascript
-
-They are written in ecmascript 6 and use the traceur compiler.
+========
+Written in Ecmascript 6 and uses the traceur compiler.
+However these can be compiled into static javascript.
 
 
 
 Api:
 ========
 Bilateral Filter:
-![Alt text](/imgs/bilateralExample.png?raw=true "Optional Title")
-```javascript
-  import {bilateralFilter} from "../js/bilateralFilter"
 
-  var img = new Image()
-  var bf = new bilateralFilter()
-  bf.sigma = 4
-  bf.kernelsize = 4*bf.sigma //95% of the data should fit into 4 sigma
+  ![Bilateral filter](/imgs/bilateralExample.png?raw=true "Bilateral Filter")
+  
+  check out html/bilateralTest.html for the code example
 
-  img.onload = function(){
 
-  var cda = bf.run(img)
-  var can = document.getElementById('can')
-  can.width = img.width
-  can.height = img.height
-  var ctx = can.getContext('2d')
-  ctx.putImageData(cda,0,0)
+Gaussian Blur:
 
-  }
-  img.src="../imgs/turkey.png"
-  document.getElementById('pic').appendChild(img)
-
-```
+  ![Bilateral filter](/imgs/gaussBlurExample.png?raw=true "Bilateral Filter")
+  
+  check out html/gassianBlurTest.html for the code example    
