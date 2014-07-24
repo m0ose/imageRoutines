@@ -35,9 +35,9 @@ import {gaussianKernel} from "./gaussianKernel"
 
 export class gaussianBlur{
 
-  constructor(  ){
-    this.sigma=2
-    this.kernelsize = 4
+  constructor( kernelsize=6 ){
+    this.sigma=kernelsize/4
+    this.kernelsize = kernelsize
     this.kernel = new gaussianKernel(this.sigma, this.kernelsize)
   }
 
@@ -78,7 +78,7 @@ export class gaussianBlur{
       }
     }
 
-    console.log('done', new Date().getTime() - start)
+    console.log('gaussian blur done', new Date().getTime() - start, 'ms')
     return dataOut
   }
 }

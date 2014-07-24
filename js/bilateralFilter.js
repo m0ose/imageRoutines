@@ -88,7 +88,7 @@ export class bilateralFilter{
       }
     }
 
-    console.log('done', new Date().getTime() - start)
+    console.log('bilateral filter done', new Date().getTime() - start, ' ms')
     return dataOut
   }
 }

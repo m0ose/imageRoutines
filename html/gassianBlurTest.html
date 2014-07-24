@@ -21,9 +21,7 @@ Gaussian blur test
             //console.log(ke)
 
             var img = new Image()
-            var bf = new gaussianBlur()
-            bf.sigma = 3
-            bf.kernelsize = 4*bf.sigma //95% of the data should fit into 4 sigma
+            var bf = new gaussianBlur(8) // 8 is the kernel size
 
             img.onload = function(){
 
@@ -35,7 +33,7 @@ Gaussian blur test
               ctx.putImageData(cda,0,0)
 
             }
-             img.src="../imgs/turkey.png"
+             img.src="../imgs/walkway.jpg"
             //img.src="../imgs/walkway.jpg"
             document.getElementById('pic').appendChild(img)
           </script>
