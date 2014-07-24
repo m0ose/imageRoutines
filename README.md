@@ -9,7 +9,7 @@ Api:
 Bilateral Filter:
 ![Alt text](/imgs/bilateralExample.png?raw=true "Optional Title")
 ```javascript
-  import {bilateralFilter, gaussianKernel} from "../js/bilateralFilter"
+  import {bilateralFilter} from "../js/bilateralFilter"
 
   var img = new Image()
   var bf = new bilateralFilter()

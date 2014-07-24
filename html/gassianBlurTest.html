@@ -3,7 +3,7 @@
 
 <head>
 <title>
-Bilateral filter test
+Gaussian blur test
 </title>
  <script src="../lib/traceur.min.js"></script>
         <!-- in-browser bootstrap for traceur
@@ -15,14 +15,14 @@ Bilateral filter test
 
 
           <script type="module">
-            import {bilateralFilter} from "../js/bilateralFilter"
+            import {gaussianBlur} from "../js/gaussianBlur"
 
             //var ke = new gaussianKernel()
             //console.log(ke)
 
             var img = new Image()
-            var bf = new bilateralFilter()
-            bf.sigma = 4
+            var bf = new gaussianBlur()
+            bf.sigma = 3
             bf.kernelsize = 4*bf.sigma //95% of the data should fit into 4 sigma
 
             img.onload = function(){
@@ -44,7 +44,7 @@ Bilateral filter test
 <body>
 <div>
   <h2>
-  Bilateral(brute force technique) image filter test
+  Gaussian image blur test
   </h2>
   </div>
   <br>
