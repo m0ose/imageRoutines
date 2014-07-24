@@ -1,6 +1,7 @@
 Common image routines for javascript
-
-They are written in ecmascript 6 and use the traceur compiler.
+========
+Written in Ecmascript 6 and uses the traceur compiler.
+However these can be compiled into static javascript.
 
 
 
