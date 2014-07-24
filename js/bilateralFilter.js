@@ -28,7 +28,7 @@ THE SOFTWARE.
 */
 
 
-import {getIntensities,getImageCanvas,getImageData} from "./imageDataRoutines"
+import {getIntensities,getImageCanvas,getImageData, copyImageData} from "./imageDataRoutines"
 import {gaussianKernel} from "./gaussianKernel"
 
 

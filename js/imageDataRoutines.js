@@ -46,7 +46,39 @@ THE SOFTWARE.
   }
 
   export function getImageData(img) {
+      if( img.data && img.data instanceof Uint8ClampedArray){
+        return copyImageData(img)
+      }
       var ctx = getImageCanvas(img)
       var imgData = ctx.getImageData(0,0, ctx.canvas.width, ctx.canvas.height);
       return imgData;
+  }
+
+  export function imageData2Canvas( imgd){
+    var can = document.createElement('canvas')
+    can.width = imgd.width
+    can.height = imgd.height
+    var ctx = can.getContext('2d')
+    ctx.putImageData(imgd,0,0)
+    return can
+  }
+
+  export function copyImageData(){
+    function ImageData() {
+    var i = 0;
+    if(arguments[0] instanceof Uint8ClampedArray) {
+        var data = arguments[i++];
+    }
+    var width = arguments[i++];
+    var height = arguments[i];      
+
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    var imageData = ctx.createImageData(width, height);
+    if(data) imageData.data.set(data);
+    return imageData;
+}
+
   }

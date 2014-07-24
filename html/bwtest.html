@@ -1,9 +1,5 @@
-<html>
-
-
-<head>
 <title>
-Bilateral filter test
+BW test
 </title>
  <script src="../lib/traceur.min.js"></script>
         <!-- in-browser bootstrap for traceur
@@ -15,27 +11,24 @@ Bilateral filter test
 
 
           <script type="module">
-            import {bilateralFilter} from "../js/bilateralFilter"
+            import {RGB2BW} from "../js/RGB2BW"
+            import {imageData2Canvas} from "../js/imageDataRoutines"
 
             //var ke = new gaussianKernel()
             //console.log(ke)
 
             var img = new Image()
-            var bf = new bilateralFilter()
-            bf.sigma = 4
-            bf.kernelsize = 4*bf.sigma //95% of the data should fit into 4 sigma
+           
 
             img.onload = function(){
 
-              var cda = bf.run(img)
-              var can = document.getElementById('can')
-              can.width = img.width
-              can.height = img.height
-              var ctx = can.getContext('2d')
-              ctx.putImageData(cda,0,0)
+              var bw = RGB2BW(img)
+              var can = imageData2Canvas( bw)
+              document.getElementById('can').appendChild(can)
+
 
             }
-             img.src="../imgs/turkey.png"
+             img.src="../imgs/walkway.jpg"
             //img.src="../imgs/walkway.jpg"
             document.getElementById('pic').appendChild(img)
           </script>
@@ -44,15 +37,13 @@ Bilateral filter test
 <body>
 <div>
   <h2>
-  Bilateral(brute force technique) image filter test
+  BW test
   </h2>
   </div>
   <br>
   <div id="pic" style="width:30pc; float:left">Before:<br></div>
   After:<br>
-  <canvas id="can" width=480 height=360 style="">
-  </canvas>
+  <div id="can" width=480 height=360 style="">
+  </div>
 </body>
 </html>
-
-
