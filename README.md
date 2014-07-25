@@ -11,11 +11,11 @@ Bilateral Filter:
 
   ![Bilateral filter](/imgs/bilateralExample.png?raw=true "Bilateral Filter")
   
-  check out html/bilateralTest.html for the code example
+  check out [ html/bilateralTest.html](https://m0ose.github.io/imageRoutines/html/bilateralTest.html) for the code example
 
 
 Gaussian Blur:
 
   ![Bilateral filter](/imgs/gaussBlurExample.png?raw=true "Bilateral Filter")
   
-  check out html/gassianBlurTest.html for the code example    
+  check out [ html/gassianBlurTest.html](https://m0ose.github.io/imageRoutines/html/gassianBlurTest.html) for the code example    
