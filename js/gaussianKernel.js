@@ -1,10 +1,11 @@
 export class gaussianKernel{
-  constructor( sigma=1, wh=13 )
+  constructor( sigma=1, w=13, h )
   {
-    console.log('making kernel',sigma, wh)
-    this.kern = new Float32Array( wh*wh)
-    this.w = wh
-    this.h = wh
+    this.w = w
+    this.h = h || w
+    console.log('making kernel',sigma, this.w,'x',this.h)
+
+    this.kern = new Float32Array( this.w*this.h)
     this.cx = Math.floor(this.w / 2);
     this.cy = Math.floor(this.h / 2);
     this.sigma = sigma

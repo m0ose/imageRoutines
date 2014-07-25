@@ -26,6 +26,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
+
+
   export function getIntensities( imgdata){
     var result = new Float32Array( imgdata.width * imgdata.height)
     for( var i=0; i < result.length; i++){
@@ -43,6 +45,20 @@ THE SOFTWARE.
       var ctx = can.getContext('2d');
       ctx.drawImage(img,0,0);
       return ctx
+  }
+
+  export function convertToImageData( img){
+    if( img.data && img.data instanceof Uint8ClampedArray){//its an image data
+       return img;
+    }
+    else if( img.src ){//its an image
+      return getImageData( img)
+    }
+    else if( img.nodeName && img.nodeName=="CANVAS"){
+      var ctx = img.getContext('2d')
+      var imgData = ctx.getImageData(0,0, img.width, img.height);
+      return imgdata
+    }
   }
 
   export function getImageData(img) {
@@ -63,22 +79,12 @@ THE SOFTWARE.
     return can
   }
 
-  export function copyImageData(){
-    function ImageData() {
-    var i = 0;
-    if(arguments[0] instanceof Uint8ClampedArray) {
-        var data = arguments[i++];
-    }
-    var width = arguments[i++];
-    var height = arguments[i];      
-
+  export function copyImageData(data){
     var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = data.width;
+    canvas.height = data.height;
     var ctx = canvas.getContext('2d');
-    var imageData = ctx.createImageData(width, height);
-    if(data) imageData.data.set(data);
+    ctx.putImageData(data,0,0)
+    var imageData = ctx.getImageData(0,0, data.width, data.height)
     return imageData;
-}
-
   }

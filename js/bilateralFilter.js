@@ -28,7 +28,7 @@ THE SOFTWARE.
 */
 
 
-import {getIntensities,getImageCanvas,getImageData, copyImageData} from "./imageDataRoutines"
+import {getIntensities,getImageCanvas, copyImageData, convertToImageData} from "./imageDataRoutines"
 import {gaussianKernel} from "./gaussianKernel"
 
 
@@ -45,8 +45,8 @@ export class bilateralFilter{
     this.kernel = new gaussianKernel(this.sigma, this.kernelsize)
     var start = new Date().getTime()
     console.log('started')
-    var data = getImageData( img)
-    var dataOut = getImageData(img)
+    var data = convertToImageData( img)
+    var dataOut = copyImageData(data)
     var intens = getIntensities(data)
 
     for( var y=0; y<data.height  ; y++){

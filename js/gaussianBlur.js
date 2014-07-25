@@ -28,7 +28,7 @@ THE SOFTWARE.
 */
 
 
-import {getIntensities,getImageCanvas,getImageData} from "./imageDataRoutines"
+import {getIntensities,getImageCanvas,getImageData, copyImageData, convertToImageData} from "./imageDataRoutines"
 import {gaussianKernel} from "./gaussianKernel"
 
 
@@ -45,8 +45,9 @@ export class gaussianBlur{
     this.kernel = new gaussianKernel(this.sigma, this.kernelsize)
     var start = new Date().getTime()
     console.log('started')
-    var data = getImageData( img)
-    var dataOut = getImageData(img)
+    //var tmp = getImageData(img)
+    var data = convertToImageData( img)
+    var dataOut = copyImageData(data)
 
     for( var y=0; y<data.height  ; y++){
       for( var x=0; x<data.width ; x++){
