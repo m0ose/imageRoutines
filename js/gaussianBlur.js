@@ -28,11 +28,99 @@ THE SOFTWARE.
 */
 
 
-import {getIntensities,getImageCanvas,getImageData, copyImageData, convertToImageData} from "./imageDataRoutines"
+import {copyImageData, convertToImageData} from "./imageDataRoutines"
 import {gaussianKernel} from "./gaussianKernel"
 
+//
+// peice wise gaussian blur
+//
+export class gaussianBlur{
+
+  constructor( kernelsize=6 ){
+    this.sigma=kernelsize/2
+    this.kernelsize = kernelsize
+    this.kernel = null
+  }
+
+  run(img){
+    this.kernel = new gaussianKernel(this.sigma, this.kernelsize,1)
+    console.log(this.kernel)
+    var start = new Date().getTime()
+    console.log('started')
+    //var tmp = getImageData(img)
+    var data = convertToImageData( img)
+    var dataOut = copyImageData(data)
+
+    // blur in x direction
+    //
+    for( var y=0; y<data.height  ; y++){
+      for( var x=0; x<data.width ; x++){
+        var i = y*data.width + x
+        var normFactor = 0
+        var rgb = [0.00000001,0.0000001,0.000000001]
+
+        for( var x2=-this.kernel.cx+1; x2<this.kernel.cx ; x2++){
+          if( x+x2>0 && x+x2 < data.width){
+            var i2 = y*data.width + (x+x2)
+            var weight = this.kernel.whats( x2,0) 
+            normFactor += weight
+            rgb[0] += weight * data.data[4*i2]
+            rgb[1] += weight * data.data[4*i2+1]
+            rgb[2] += weight * data.data[4*i2+2]
+          }
+        }
+
+        normFactor = Math.max(0.00001, Math.abs(normFactor))
+        var i4 = 4*i
+
+        dataOut.data[i4] = rgb[0]/normFactor
+        dataOut.data[i4+1] = rgb[1]/normFactor
+        dataOut.data[i4+2] = rgb[2]/normFactor
+        //dataOut.data[i4]= dataOut.data[i4+1] = dataOut.data[i4+2] = wout
+      }
+    }
+
+/// blur in y direction
+//
+    for( var y=0; y<data.height  ; y++){
+      for( var x=0; x<data.width ; x++){
+        var i = y*data.width + x
+        var normFactor = 0
+        var rgb = [0.00000001,0.0000001,0.000000001]
+
+        for( var x2=-this.kernel.cx+1; x2<this.kernel.cx ; x2++){
+          if( y+x2>0 && y+x2 < data.height){
+            var i2 = (y+x2)*data.width + x
+            var weight = this.kernel.whats( x2,0) 
+            normFactor += weight
+            rgb[0] += weight * dataOut.data[4*i2]
+            rgb[1] += weight * dataOut.data[4*i2+1]
+            rgb[2] += weight * dataOut.data[4*i2+2]
+          }
+        }
+
+        normFactor = Math.max(0.00001, Math.abs(normFactor))
+        var i4 = 4*i
+
+        dataOut.data[i4] = rgb[0]/normFactor
+        dataOut.data[i4+1] = rgb[1]/normFactor
+        dataOut.data[i4+2] = rgb[2]/normFactor
+        //dataOut.data[i4]= dataOut.data[i4+1] = dataOut.data[i4+2] = wout
+      }
+    }
+
+    console.log('gaussian blur done', new Date().getTime() - start, 'ms')
+    return dataOut
+  }
+}
 
 
+
+
+//
+// This version is too slow
+//
+/* 
 export class gaussianBlur{
 
   constructor( kernelsize=6 ){
@@ -83,3 +171,7 @@ export class gaussianBlur{
     return dataOut
   }
 }
+*/
+
+
+
