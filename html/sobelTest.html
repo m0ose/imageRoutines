@@ -1,0 +1,56 @@
+<html>
+
+
+<head>
+<title>
+Gaussian blur test
+</title>
+ <script src="../lib/traceur.min.js"></script>
+        <!-- in-browser bootstrap for traceur
+        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+-->     <script>
+            new traceur.WebPageTranscoder(document.location.href).run();
+            traceur.options.experimental = true;
+          </script>
+
+
+          <script type="module">
+            import {sobelFilter} from "../js/sobelFilter"
+
+            //var ke = new gaussianKernel()
+            //console.log(ke)
+
+            var img = new Image()
+            var bf = new sobelFilter() // 8 is the kernel size
+
+            img.onload = function(){
+
+              var cda = bf.run(img)
+              var can = document.getElementById('can')
+              can.width = img.width
+              can.height = img.height
+              var ctx = can.getContext('2d')
+              ctx.putImageData(cda,0,0)
+
+            }
+             img.src="../imgs/walkway.jpg"
+            //img.src="../imgs/walkway.jpg"
+            document.getElementById('pic').appendChild(img)
+          </script>
+</head>
+
+<body>
+<div>
+  <h2>
+  Gaussian image blur test
+  </h2>
+  </div>
+  <br>
+  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  After:<br>
+  <canvas id="can" width=480 height=360 style="">
+  </canvas>
+</body>
+</html>
+
+
