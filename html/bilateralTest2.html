@@ -1,0 +1,59 @@
+<html>
+
+
+<head>
+<title>
+Bilateral filter test
+</title>
+ <script src="../lib/traceur.min.js"></script>
+        <!-- in-browser bootstrap for traceur
+        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+-->     <script>
+            new traceur.WebPageTranscoder(document.location.href).run();
+            traceur.options.experimental = true;
+          </script>
+
+
+          <script type="module">
+            import {bilateralFilterFast,integralHistogram} from "../js/bilateralFilterFast"
+
+            //var ke = new gaussianKernel()
+            //console.log(ke)
+
+            var img = new Image()
+            window.bf = new bilateralFilterFast()
+            bf.sigma=12
+            bf.bins=64
+            window.histo = null
+            img.onload = function(){
+
+             //histo = new integralHistogram( img, 16)
+              var cda=bf.run( img)
+              var can = document.getElementById('can')
+              can.width = img.width
+              can.height = img.height
+              var ctx = can.getContext('2d')
+              ctx.putImageData(cda,0,0)
+            }
+             //img.src="../imgs/ug.jpg"
+            //img.src="../imgs/challenge.jpg"
+            img.src="../imgs/turkey.png"
+            document.getElementById('pic').appendChild(img)
+          </script>
+</head>
+
+<body>
+<div>
+  <h2>
+  Bilateral(brute force technique) image filter test
+  </h2>
+  </div>
+  <br>
+  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  After:<br>
+  <canvas id="can" width=480 height=360 style="">
+  </canvas>
+</body>
+</html>
+
+

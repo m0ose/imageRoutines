@@ -33,7 +33,7 @@ import {gaussianKernel} from "./gaussianKernel"
 
 //
 // peice wise gaussian blur
-//   this is like 10x as fast as the other method
+//   this is like 3x as fast as the other method
 //
 export class gaussianBlur{
 
