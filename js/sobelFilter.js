@@ -19,7 +19,7 @@ export class sobelFilter{
     for( var y=0; y<data.height  ; y++){
       for( var x=0; x<data.width ; x++){
         var i = y*data.width + x
-        var rgb = [127.00000001,127.0000001]
+        var rgb = [0.00000001,0.0000001]
 
         for( var y2=-this.kernX.cy; y2<=this.kernX.cy ; y2++){
           for( var x2=-this.kernX.cx; x2<=this.kernX.cx ; x2++){
@@ -32,9 +32,10 @@ export class sobelFilter{
         }
 
         var i4 = 4*i
-        dataOut.data[i4] = rgb[0]
-        dataOut.data[i4+1] = rgb[1]
-        dataOut.data[i4+2] = 0
+        dataOut.data[i4] = rgb[0] + 127
+        dataOut.data[i4+1] = rgb[1] + 127
+        dataOut.data[i4+2] = Math.sqrt( Math.pow(rgb[0],2) + Math.pow(rgb[1],2))
+
       }
     }
 

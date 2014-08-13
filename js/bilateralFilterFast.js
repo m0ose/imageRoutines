@@ -55,7 +55,10 @@ export class integralHistogram{
     this.height = data.height
 
     this.binwidth = 255/(this.binCount)
-/*
+
+    //
+    // This code is cleaner and just as fast as the other seperated one
+    //
     for( var y=0; y<this.height; y++){
       for( var x=0; x<this.width; x++){
         var indx = y*this.width + x
@@ -72,13 +75,12 @@ export class integralHistogram{
         this.bins[indx*this.binCount + mybin]+=1
       }
     }
-    */
 
 
 //
 //  I thought this would speed it up but it didn't at all
 //
-    for( var y=0; y<this.height; y++){
+/*    for( var y=0; y<this.height; y++){
       for( var x=1; x<this.width; x++){
         var indx = y*this.width + x
         var meI = this.intens[indx]
@@ -103,6 +105,7 @@ export class integralHistogram{
         }
       }
     }
+    */
 //
 // end failed speed up attempt
 //
