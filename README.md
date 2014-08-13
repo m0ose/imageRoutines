@@ -19,3 +19,7 @@ Gaussian Blur:
   ![Bilateral filter](/imgs/gaussBlurExample.png?raw=true "Bilateral Filter")
   
   check out [ html/gaussianBlurTest.html](https://m0ose.github.io/imageRoutines/html/gaussianBlurTest.html) for the code example    
+
+Sobel Filter:
+  
+  check out [ html/sobelTest.html](https://m0ose.github.io/imageRoutines/html/sobelTest.html) for the code example    
