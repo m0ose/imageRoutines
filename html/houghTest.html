@@ -19,7 +19,7 @@ hough filter test
 
               img.onload = function(){
                 window.poo = new HoughTransform(img) // 8 is the kernel size
-                var can2 = poo.getInCanvas()
+                var can2 = poo.getAccumulatorInCanvas()
                 can2.style.width = "400px"
                 var can = document.getElementById('cana')
                 can.appendChild(can2)

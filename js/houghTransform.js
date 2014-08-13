@@ -34,13 +34,13 @@ import {sobelFilter} from "./sobelFilter"
 
 export class HoughTransform{
 
-  constructor( img , numCells=400){
+  constructor( img , numCells=300){
     this.numAngleCells = Math.floor(numCells/2)*2
     this.imWid = img.width
     this.imHei = img.height
     this.rhoMax = 1*Math.sqrt(this.imWid * this.imWid + this.imHei * this.imHei);
     this.sobelTreshold = 250
-    this.accum = new Uint32Array(this.numAngleCells * this.rhoMax);
+    this.accumulator = new Uint32Array(this.numAngleCells * this.rhoMax);
     this.run(img)
   }
 
@@ -48,14 +48,14 @@ export class HoughTransform{
     var start = new Date().getTime()
     console.log('hough started')
     //init accumulator
-    for(var i=0; i < this.accum.length; i++){
-      this.accum[i] = 0
+    for(var i=0; i < this.accumulator.length; i++){
+      this.accumulator[i] = 0
     }
 
     var bf = new sobelFilter() // 8 is the kernel size
     var edges = bf.run(img)
 
-    for( var y=2; y < this.imHei-2; y++ ){
+    for( var y=2; y < this.imHei-2; y++ ){//ignore edges.
       for( var x=2; x < this.imWid-2; x++){
         var indx = 4*( y*this.imWid + x) + 2
         var val = edges.data[indx]
@@ -70,24 +70,24 @@ export class HoughTransform{
 
   houghAccClassical(x, y) {
     for ( var thetaIndex = 0; thetaIndex < this.numAngleCells;  thetaIndex++) {
-      var theta = thetaIndex*(Math.PI / this.numAngleCells)
+      var theta = thetaIndex*(2*Math.PI / this.numAngleCells)
       var rho =  Math.floor( x * Math.cos(theta) + y * Math.sin(theta))
-      var indx = Math.floor(thetaIndex*this.rhoMax) + rho
-      this.accum[indx]++;
+      var indx = Math.floor(rho*this.numAngleCells) + thetaIndex
+      this.accumulator[indx]++;
     }
   }
 
-  getInCanvas(){
+  getAccumulatorInCanvas(){
     var can = document.createElement('canvas')
-    can.height = this.numAngleCells
-    can.width = this.rhoMax
+    can.height = this.rhoMax
+    can.width = this.numAngleCells
     var ctx = can.getContext('2d')
     var imgd = ctx.getImageData(0,0, can.width, can.height)
-    for(var i=0; i < this.accum.length; i++){
-      imgd.data[4*i] = this.accum[i]
-      imgd.data[4*i+1] = this.accum[i]
-      imgd.data[4*i+2] = this.accum[i]
-      imgd.data[4*i+3] = 255//this.accum[i]
+    for(var i=0; i < this.accumulator.length; i++){
+      imgd.data[4*i] = this.accumulator[i]
+      imgd.data[4*i+1] = this.accumulator[i]
+      imgd.data[4*i+2] = this.accumulator[i]
+      imgd.data[4*i+3] = 255//this.accumulator[i]
 
     }
     ctx.putImageData(imgd,0,0)
