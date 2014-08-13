@@ -1,0 +1,54 @@
+<title>
+hough filter test
+</title>
+ <script src="../lib/traceur.min.js"></script>
+        <!-- in-browser bootstrap for traceur
+        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+-->     <script>
+            new traceur.WebPageTranscoder(document.location.href).run();
+            traceur.options.experimental = true;
+          </script>
+
+
+          <script type="module">
+            import {HoughTransform} from "../js/houghTransform"
+
+            window.tester = function( name ){
+
+               var img = new Image()
+
+              img.onload = function(){
+                window.poo = new HoughTransform(img) // 8 is the kernel size
+                var can2 = poo.getInCanvas()
+                can2.style.width = "400px"
+                var can = document.getElementById('cana')
+                can.appendChild(can2)
+                /*can.width = img.width
+                can.height = img.height
+                var ctx = can.getContext('2d')
+                ctx.putImageData(cda,0,0)
+  */
+              }
+              //img.src = name//"vert.png"
+              img.src="../imgs/Pentagon.png"
+              //img.src="../imgs/walkway.jpg"
+              document.getElementById('pic').appendChild(img)
+            }
+           
+           tester('../imgs/horiz.png')
+          </script>
+</head>
+
+<body>
+<div>
+  <h2>
+  BW test
+  </h2>
+  </div>
+  <br>
+  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  accumulator:<br>
+  <div id="cana" width=480 height=360 >
+  </div>
+</body>
+</html>
