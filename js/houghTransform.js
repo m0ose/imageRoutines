@@ -30,21 +30,35 @@ THE SOFTWARE.
 
 import {getIntensities,getImageCanvas, copyImageData, convertToImageData} from "./imageDataRoutines"
 import {sobelFilter} from "./sobelFilter"
-
+//import {BlobExtraction} from "../lib/connected-component-labeling"
 
 export class HoughTransform{
 
   constructor( img , numCells=300){
+    // 
+    //
     this.numAngleCells = Math.floor(numCells/2)*2
     this.imWid = img.width
     this.imHei = img.height
     this.rhoMax = 1*Math.sqrt(this.imWid * this.imWid + this.imHei * this.imHei);
     this.sobelTreshold = 250
     this.accumulator = new Uint32Array(this.numAngleCells * this.rhoMax);
-    this.run(img)
+    this.accWid = this.numAngleCells
+    this.accHei = this.rhoMax
+    this.labels = null
+    this.blobs = null
+    //
+    // Run the algorithm now
+    //
+    this.runHough(img)
+    this.findBlobs()
   }
 
-  run( img){
+
+  //
+  // Basically the main function 
+  //
+  runHough( img){
     var start = new Date().getTime()
     console.log('hough started')
     //init accumulator
@@ -68,6 +82,9 @@ export class HoughTransform{
     console.log('Hough transform done', new Date().getTime() - start, 'ms')
   }
 
+//
+// hough transform function. Translates edges in the image into sinusoids in the accumulator
+//
   houghAccClassical(x, y) {
     for ( var thetaIndex = 0; thetaIndex < this.numAngleCells;  thetaIndex++) {
       var theta = thetaIndex*(2*Math.PI / this.numAngleCells)
@@ -77,7 +94,39 @@ export class HoughTransform{
     }
   }
 
-  getAccumulatorInCanvas(){
+//
+// Find the blobs that represent lines in the accumulator
+//  Threshold. Lower result in more blobs generally
+//
+  findBlobs(threshold=70){
+    var bina = this.binarizeAccumulator(threshold)
+    this.labels = BlobExtraction( bina, this.accWid, this.accHei)
+    this.blobs = BlobBounds(this.labels, this.accWid, this.accHei)
+    console.log(this.blobs)
+  }
+
+//
+// Turn accumulator into something the blob detector can deal with
+//  Threshold. Lower result in more blobs generally
+//
+  binarizeAccumulator(threshold = 70){
+    var result = []//new Uint8Array( this.accumulator.length)
+    for(var i=0; i < this.accumulator.length; i++){
+      result[i] = ( this.accumulator[i]>threshold ) * 1
+    }
+    return result
+  }
+  
+
+//
+// Drawing routines
+//    These are public functions
+//___________________________________________________________
+
+//
+// Show accumulator as a canvas 
+//  
+getAccumulatorInCanvas(){
     var can = document.createElement('canvas')
     can.height = this.rhoMax
     can.width = this.numAngleCells
@@ -91,7 +140,42 @@ export class HoughTransform{
 
     }
     ctx.putImageData(imgd,0,0)
-    return ctx.canvas
+    return {canvas:ctx.canvas, imagedata:imgd}
+  }
+
+//
+// Draw a single line onto the context2d
+//
+  drawLine( context2d , rho ,theta){
+    var ctx = context2d
+    var w = ctx.canvas.width
+    var h = ctx.canvas.height
+    ctx.beginPath()
+    function yAt(r,t,x){
+      var y = -(Math.cos(t)/Math.sin(t))*x + r/Math.sin(t)
+      return y
+    }
+    function xAt(r,t,y){
+      var x = -Math.tan(t)*(y-r/Math.sin(t))
+      return x
+    }
+    //get point 1
+    var p1 = [xAt(rho,theta, 0), 0]
+    if( p1[0] < 0){
+      p1 = [0,yAt( rho, theta, 0) ]
+    }
+    //get point2
+    var p2 = [xAt(rho,theta, h), h]
+    if( p2[0] > w){
+      p2 = [w,yAt( rho, theta, w) ]
+    }
+
+    ctx.beginPath()
+    ctx.moveTo(p1[0], p1[1] )
+    ctx.lineTo(p2[0], p2[1] )
+    ctx.stroke()
+    ctx.closePath()
+    return {p1:p1,p2:p2}
   }
   
-}
+}//end HoughTransform
