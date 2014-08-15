@@ -21,7 +21,7 @@ hough filter test
 
             img.onload = function(){
               var candiv = document.getElementById('cana')
-
+              document.getElementById('pic').appendChild(img)
               //show accumulator
               window.poo = new HoughTransform(img, 256, 170) // 8 is the kernel size
               var can2 = poo.getAccumulatorInCanvas().canvas
@@ -58,7 +58,7 @@ hough filter test
             //img.src = name//"vert.png"
             //img.src="../imgs/Pentagon.png"
             img.src="../imgs/goboard.jpg"
-            document.getElementById('pic').appendChild(img)
+            
           }
          
          tester('../imgs/horiz.png')
@@ -72,7 +72,8 @@ hough filter test
   </h2>
   </div>
   <br>
-  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  <div id="pic">Before:<br></div>
+  <br>
   <div id="cana"  >
     accumulator:<br>
   </div>
