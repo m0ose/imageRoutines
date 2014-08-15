@@ -28,4 +28,4 @@ Sobel Filter:
 Hough Filter:
 
   A line detector.
-  check out [ html/sobelTest.html](https://m0ose.github.io/imageRoutines/html/houghTest.html) for the code example  
+  check out [ html/houghTest.html](https://m0ose.github.io/imageRoutines/html/houghTest.html) for the code example  
