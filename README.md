@@ -21,5 +21,11 @@ Gaussian Blur:
   check out [ html/gaussianBlurTest.html](https://m0ose.github.io/imageRoutines/html/gaussianBlurTest.html) for the code example    
 
 Sobel Filter:
-  
+
+  An Edge Detector.
   check out [ html/sobelTest.html](https://m0ose.github.io/imageRoutines/html/sobelTest.html) for the code example    
+  
+Hough Filter:
+
+  A line detector.
+  check out [ html/sobelTest.html](https://m0ose.github.io/imageRoutines/html/houghTest.html) for the code example  
