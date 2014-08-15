@@ -1,0 +1,86 @@
+<title>
+hough filter test
+</title>
+ <script src="../lib/traceur.min.js"></script>
+ <script src="../lib/connected-component-labeling.js"></script>
+
+  <script>
+          new traceur.WebPageTranscoder(document.location.href).run();
+          traceur.options.experimental = true;
+        </script>
+
+
+        <script type="module">
+          import {HoughTransform} from "../js/houghTransform"
+          import {Binarize, Binarize2} from "../js/Binarize"
+          import {convertToImageData} from "../js/imageDataRoutines"
+
+          window.tester = function( name ){
+
+             var img = new Image()
+
+            img.onload = function(){
+              var candiv = document.getElementById('cana')
+
+              //show accumulator
+              window.poo = new HoughTransform(img, 256, 170) // 8 is the kernel size
+              var can2 = poo.getAccumulatorInCanvas().canvas
+              candiv.appendChild(can2)
+
+              //showblobs
+              var can3 = document.createElement('canvas')
+              can3.width = can2.width
+              can3.height = can2.height
+              var ctx3 = can3.getContext('2d')
+              var imgd = ctx3.getImageData(0,0, can3.width, can3.height)
+              BlobColouring(imgd.data, can2.width, can2.height, poo.labels)
+              ctx3.putImageData(imgd,0,0)
+        
+              candiv.appendChild(can3)
+
+
+              var can4 = document.createElement('canvas')
+              can4.width = img.width
+              can4.height = img.height
+              var ctx4 = can4.getContext('2d')
+              var imgd4 = convertToImageData(img)
+              ctx4.putImageData(imgd4,0,0)
+              for( var i=1; i < poo.blobs.length; i++){
+                var r = poo.blobs[i].cy
+                var t = poo.blobs[i].cx
+                var theta = t*2*Math.PI/poo.accWid
+                var l = poo.drawLine( ctx4, r,theta)
+              }
+              document.getElementById('result').appendChild(can4)
+
+
+            }
+            //img.src = name//"vert.png"
+            //img.src="../imgs/Pentagon.png"
+            img.src="../imgs/goboard.jpg"
+            document.getElementById('pic').appendChild(img)
+          }
+         
+         tester('../imgs/horiz.png')
+        </script>
+</head>
+
+<body>
+<div>
+  <h2>
+  BW test
+  </h2>
+  </div>
+  <br>
+  <div id="pic" style="width:30pc; float:left">Before:<br></div>
+  <div id="cana"  >
+    accumulator:<br>
+  </div>
+  <br>
+  <div id="result">
+    Result:
+    <br>
+  </div>
+ 
+</body>
+</html>

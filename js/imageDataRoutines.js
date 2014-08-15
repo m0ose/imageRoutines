@@ -57,7 +57,7 @@ THE SOFTWARE.
     else if( img.nodeName && img.nodeName=="CANVAS"){
       var ctx = img.getContext('2d')
       var imgData = ctx.getImageData(0,0, img.width, img.height);
-      return imgdata
+      return imgData
     }
   }
 
