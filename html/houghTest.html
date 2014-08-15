@@ -13,55 +13,51 @@ hough filter test
         <script type="module">
           import {HoughTransform} from "../js/houghTransform"
           import {Binarize, Binarize2} from "../js/Binarize"
+          import {convertToImageData} from "../js/imageDataRoutines"
 
           window.tester = function( name ){
 
              var img = new Image()
 
             img.onload = function(){
-              window.poo = new HoughTransform(img) // 8 is the kernel size
+              var candiv = document.getElementById('cana')
+
+              //show accumulator
+              window.poo = new HoughTransform(img, 256, 170) // 8 is the kernel size
               var can2 = poo.getAccumulatorInCanvas().canvas
-              var canimgd = poo.getAccumulatorInCanvas().imagedata
-              window.bina = Binarize2( canimgd, 70)
-              var labels = BlobExtraction( bina, can2.width, can2.height)
-              var bloobs = BlobBounds(labels, can2.width, can2.height)
-              console.log(bloobs)
+              candiv.appendChild(can2)
+
+              //showblobs
               var can3 = document.createElement('canvas')
               can3.width = can2.width
               can3.height = can2.height
               var ctx3 = can3.getContext('2d')
               var imgd = ctx3.getImageData(0,0, can3.width, can3.height)
-              BlobColouring(imgd.data, can2.width, can2.height, labels)
+              BlobColouring(imgd.data, can2.width, can2.height, poo.labels)
               ctx3.putImageData(imgd,0,0)
         
-              //can2.style.width = "400px"
-              var candiv = document.getElementById('cana')
-              candiv.appendChild(can2)
               candiv.appendChild(can3)
-              /*can.width = img.width
-              can.height = img.height
-              var ctx = can.getContext('2d')
-              ctx.putImageData(cda,0,0)
 
 
-  */
               var can4 = document.createElement('canvas')
               can4.width = img.width
               can4.height = img.height
               var ctx4 = can4.getContext('2d')
+              var imgd4 = convertToImageData(img)
+              ctx4.putImageData(imgd4,0,0)
               for( var i=1; i < poo.blobs.length; i++){
                 var r = poo.blobs[i].cy
                 var t = poo.blobs[i].cx
                 var theta = t*2*Math.PI/poo.accWid
                 var l = poo.drawLine( ctx4, r,theta)
               }
-              candiv.appendChild(can4)
+              document.getElementById('result').appendChild(can4)
 
 
             }
             //img.src = name//"vert.png"
             //img.src="../imgs/Pentagon.png"
-            img.src="../imgs/walkway.jpg"
+            img.src="../imgs/goboard.jpg"
             document.getElementById('pic').appendChild(img)
           }
          
@@ -77,8 +73,14 @@ hough filter test
   </div>
   <br>
   <div id="pic" style="width:30pc; float:left">Before:<br></div>
-  accumulator:<br>
-  <div id="cana" width=480 height=360 >
+  <div id="cana"  >
+    accumulator:<br>
   </div>
+  <br>
+  <div id="result">
+    Result:
+    <br>
+  </div>
+ 
 </body>
 </html>

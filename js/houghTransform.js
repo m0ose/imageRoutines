@@ -30,11 +30,12 @@ THE SOFTWARE.
 
 import {getIntensities,getImageCanvas, copyImageData, convertToImageData} from "./imageDataRoutines"
 import {sobelFilter} from "./sobelFilter"
+import "../lib/connected-component-labeling"
 //import {BlobExtraction} from "../lib/connected-component-labeling"
 
 export class HoughTransform{
 
-  constructor( img , numCells=300){
+  constructor( img , numCells=256, blobThreshold=90){
     // 
     //
     this.numAngleCells = Math.floor(numCells/2)*2
@@ -47,11 +48,12 @@ export class HoughTransform{
     this.accHei = this.rhoMax
     this.labels = null
     this.blobs = null
+    this.blobThreshold = blobThreshold
     //
     // Run the algorithm now
     //
     this.runHough(img)
-    this.findBlobs()
+    this.findBlobs( )
   }
 
 
@@ -98,8 +100,8 @@ export class HoughTransform{
 // Find the blobs that represent lines in the accumulator
 //  Threshold. Lower result in more blobs generally
 //
-  findBlobs(threshold=70){
-    var bina = this.binarizeAccumulator(threshold)
+  findBlobs(){
+    var bina = this.binarizeAccumulator(this.blobThreshold)
     this.labels = BlobExtraction( bina, this.accWid, this.accHei)
     this.blobs = BlobBounds(this.labels, this.accWid, this.accHei)
     console.log(this.blobs)
@@ -177,5 +179,5 @@ getAccumulatorInCanvas(){
     ctx.closePath()
     return {p1:p1,p2:p2}
   }
-  
+
 }//end HoughTransform
