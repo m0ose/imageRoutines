@@ -23,7 +23,7 @@ hough filter test
               var candiv = document.getElementById('cana')
               document.getElementById('pic').appendChild(img)
               //show accumulator
-              window.poo = new HoughTransform(img, 256, 170) // 8 is the kernel size
+              window.poo = new HoughTransform(img, 256, 80) // 8 is the kernel size
               var can2 = poo.getAccumulatorInCanvas().canvas
               candiv.appendChild(can2)
 
@@ -45,6 +45,7 @@ hough filter test
               var ctx4 = can4.getContext('2d')
               var imgd4 = convertToImageData(img)
               ctx4.putImageData(imgd4,0,0)
+              ctx4.strokeStyle = "#009"
               for( var i=1; i < poo.blobs.length; i++){
                 var r = poo.blobs[i].cy
                 var t = poo.blobs[i].cx
@@ -55,20 +56,20 @@ hough filter test
 
 
             }
-            //img.src = name//"vert.png"
+            img.src = name//"vert.png"
             //img.src="../imgs/Pentagon.png"
-            img.src="../imgs/goboard.jpg"
+            //img.src="../imgs/goboard.jpg"
             
           }
          
-         tester('../imgs/horiz.png')
+         tester('../imgs/goboard.jpg')
         </script>
 </head>
 
 <body>
 <div>
   <h2>
-  BW test
+  Hough Transform Test
   </h2>
   </div>
   <br>

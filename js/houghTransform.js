@@ -35,7 +35,7 @@ import "../lib/connected-component-labeling"
 
 export class HoughTransform{
 
-  constructor( img , numCells=256, blobThreshold=90){
+  constructor( img , numCells=400, blobThreshold=90){
     // 
     //
     this.numAngleCells = Math.floor(numCells/2)*2
@@ -73,10 +73,13 @@ export class HoughTransform{
 
     for( var y=2; y < this.imHei-2; y++ ){//ignore edges.
       for( var x=2; x < this.imWid-2; x++){
-        var indx = 4*( y*this.imWid + x) + 2
-        var val = edges.data[indx]
-        if( val > this.sobelTreshold){
-          this.houghAccClassical(x,y)
+        var indx = 4*( y*this.imWid + x) 
+        var r = edges.data[indx+0]-127//just x edge
+        var g = edges.data[indx+1]-127//just y edge
+        var angle = Math.atan2( g, r)
+        var b = edges.data[indx+2]// blue channel holds both x and y
+        if( b > this.sobelTreshold){
+          this.houghAccClassical2(x,y,angle, 0.4)
         }
       }
     }
@@ -90,6 +93,21 @@ export class HoughTransform{
   houghAccClassical(x, y) {
     for ( var thetaIndex = 0; thetaIndex < this.numAngleCells;  thetaIndex++) {
       var theta = thetaIndex*(2*Math.PI / this.numAngleCells)
+      var rho =  Math.floor( x * Math.cos(theta) + y * Math.sin(theta))
+      var indx = Math.floor(rho*this.numAngleCells) + thetaIndex
+      this.accumulator[indx]++;
+    }
+  }
+
+  houghAccClassical2(x, y, angle=Math.PI, range=Math.PI) {
+    var twopi = 2*Math.PI
+    angle = (angle + twopi)%twopi
+    var start = (this.numAngleCells/twopi)*( Math.max(0, angle - range))
+    var end = (this.numAngleCells/twopi)*( Math.min(twopi, angle + range))
+    start = Math.floor(start)
+    end = Math.floor(end)
+    for ( var thetaIndex = start; thetaIndex < end;  thetaIndex++) {
+      var theta = thetaIndex*(twopi / this.numAngleCells)
       var rho =  Math.floor( x * Math.cos(theta) + y * Math.sin(theta))
       var indx = Math.floor(rho*this.numAngleCells) + thetaIndex
       this.accumulator[indx]++;
