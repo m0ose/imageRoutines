@@ -88,3 +88,10 @@ THE SOFTWARE.
     var imageData = ctx.getImageData(0,0, data.width, data.height)
     return imageData;
   }
+
+  export function createImageData(w,h){
+    var can = document.createElement('canvas')
+    can.width = w
+    can.height = h
+    return convertToImageData( can)
+  }
