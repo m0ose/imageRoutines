@@ -27,21 +27,33 @@ THE SOFTWARE.
 
 */
 
+  var _Canvas = undefined
+  function createCanvas (w, h) {
+    if (typeof document !== 'undefined') { // nodejs
+      let can = document.createElement('canvas')
+      can.width = w;
+      can.height = h;
+      return can
+    } else {
+      if (typeof Canvas == 'undefined') {
+        _Canvas = require('canvas')
+      }
+      return new _Canvas(w, h)
+    }
+  }
 
   export function getIntensities( imgdata){
     var result = new Float32Array( imgdata.width * imgdata.height)
     for( var i=0; i < result.length; i++){
       var indx = i*4
-      // 0.2126 * R + 0.7152 * G + 0.0722 * B 
+      // 0.2126 * R + 0.7152 * G + 0.0722 * B
       result[i] = 0.2126 * imgdata.data[indx] + 0.7152 *imgdata.data[indx+1] + 0.0722 * imgdata.data[indx+2]
     }
     return result
   }
 
   export function getImageCanvas(img){
-     var can = document.createElement('canvas');
-      can.width = img.width;
-      can.height = img.height;
+      var can = createCanvas(img.width, img.height)
       var ctx = can.getContext('2d');
       ctx.drawImage(img,0,0);
       return ctx
@@ -50,11 +62,9 @@ THE SOFTWARE.
   export function convertToImageData( img){
     if( img.data && img.data instanceof Uint8ClampedArray){//its an image data
        return img;
-    }
-    else if( img.src ){//its an image
+    } else if( img.src ){//its an image
       return getImageData( img)
-    }
-    else if( img.nodeName && img.nodeName=="CANVAS"){
+    } else { // assume its a canvas
       var ctx = img.getContext('2d')
       var imgData = ctx.getImageData(0,0, img.width, img.height);
       return imgData
@@ -71,18 +81,14 @@ THE SOFTWARE.
   }
 
   export function imageData2Canvas( imgd){
-    var can = document.createElement('canvas')
-    can.width = imgd.width
-    can.height = imgd.height
+    var can = createCanvas(imgd.width, imgd.height)
     var ctx = can.getContext('2d')
     ctx.putImageData(imgd,0,0)
     return can
   }
 
   export function copyImageData(data){
-    var canvas = document.createElement('canvas');
-    canvas.width = data.width;
-    canvas.height = data.height;
+    var canvas = createCanvas(data.width, data.height)
     var ctx = canvas.getContext('2d');
     ctx.putImageData(data,0,0)
     var imageData = ctx.getImageData(0,0, data.width, data.height)
@@ -90,8 +96,6 @@ THE SOFTWARE.
   }
 
   export function createImageData(w,h){
-    var can = document.createElement('canvas')
-    can.width = w
-    can.height = h
+    var can = createCanvas(w, h)
     return convertToImageData( can)
   }
