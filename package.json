@@ -1,4 +1,11 @@
 {
+  "name": "ImageRoutines",
+	"version": "0.1.0",
+	"description": "Image Routines in ES6",
+	"keywords": [],
+	"author": "cosy smith",
+	"contributors":[],
+	"license":"MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:m0ose/imageRoutines.git"
