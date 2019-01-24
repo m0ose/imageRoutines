@@ -38,7 +38,7 @@ THE SOFTWARE.
       if (typeof Canvas == 'undefined') {
         _Canvas = require('canvas')
       }
-      return new _Canvas(w, h)
+      return new _Canvas.Canvas(w, h)
     }
   }
 
