@@ -5,17 +5,10 @@
 <title>
 Bilateral filter test
 </title>
- <script src="../lib/traceur.min.js"></script>
-        <!-- in-browser bootstrap for traceur
-        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
--->     <script>
-            new traceur.WebPageTranscoder(document.location.href).run();
-            traceur.options.experimental = true;
-          </script>
-
+ 
 
           <script type="module">
-            import {bilateralFilterFast,integralHistogram} from "../js/bilateralFilterFast"
+            import {bilateralFilterFast,integralHistogram} from "../js/bilateralFilterFast.js"
 
             //var ke = new gaussianKernel()
             //console.log(ke)

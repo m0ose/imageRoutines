@@ -1,19 +1,14 @@
 <title>
 hough filter test
 </title>
- <script src="../lib/traceur.min.js"></script>
+
  <script src="../lib/connected-component-labeling.js"></script>
 
-  <script>
-          new traceur.WebPageTranscoder(document.location.href).run();
-          traceur.options.experimental = true;
-        </script>
-
-
+ 
         <script type="module">
-          import {HoughTransform} from "../js/houghTransform"
-          import {Binarize, Binarize2} from "../js/Binarize"
-          import {convertToImageData} from "../js/imageDataRoutines"
+          import {HoughTransform} from "../js/houghTransform.js"
+          import {Binarize, Binarize2} from "../js/Binarize.js"
+          import {convertToImageData} from "../js/imageDataRoutines.js"
 
           window.tester = function( name ){
 
