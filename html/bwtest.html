@@ -1,18 +1,11 @@
 <title>
 BW test
 </title>
- <script src="../lib/traceur.min.js"></script>
-        <!-- in-browser bootstrap for traceur
-        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
--->     <script>
-            new traceur.WebPageTranscoder(document.location.href).run();
-            traceur.options.experimental = true;
-          </script>
-
+ 
 
           <script type="module">
-            import {RGB2BW} from "../js/RGB2BW"
-            import {imageData2Canvas} from "../js/imageDataRoutines"
+            import {RGB2BW} from "../js/RGB2BW.js"
+            import {imageData2Canvas} from "../js/imageDataRoutines.js"
 
             //var ke = new gaussianKernel()
             //console.log(ke)

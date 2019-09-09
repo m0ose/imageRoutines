@@ -5,17 +5,8 @@
 <title>
 Bilateral filter test
 </title>
- <script src="../lib/traceur.min.js"></script>
-        <!-- in-browser bootstrap for traceur
-        <script src="lib/bower_components/bootstrap/dist/js/bootstrap.js"></script>
--->     <script>
-            new traceur.WebPageTranscoder(document.location.href).run();
-            traceur.options.experimental = true;
-          </script>
-
-
           <script type="module">
-            import {bilateralFilter} from "../js/bilateralFilter"
+            import {bilateralFilter} from "../js/bilateralFilter.js"
 
             //var ke = new gaussianKernel()
             //console.log(ke)
@@ -35,7 +26,7 @@ Bilateral filter test
               ctx.putImageData(cda,0,0)
 
             }
-             img.src="../imgs/pano.jpg"
+             img.src="../imgs/turkey.png"
             //img.src="../imgs/walkway.jpg"
             document.getElementById('pic').appendChild(img)
           </script>
