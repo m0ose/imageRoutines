@@ -1,9 +1,9 @@
 {
   "name": "ImageRoutines",
-	"version": "0.1.0",
+	"version": "0.5.0",
 	"description": "Image Routines in ES6",
 	"keywords": [],
-	"author": "cosy smith",
+	"author": "cody smith",
 	"contributors":[],
 	"license":"MIT",
   "repository": {
