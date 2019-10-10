@@ -3,17 +3,19 @@
 
 <head>
 <title>
-Sobel Filter test
+Gaussian blur test
 </title>
- 
+
+
+
           <script type="module">
-            import {sobelFilter} from "../js/sobelFilter.js"
+              import {boxBlur} from '../js/boxBlur.js'
 
             //var ke = new gaussianKernel()
             //console.log(ke)
 
             var img = new Image()
-            var bf = new sobelFilter() // 8 is the kernel size
+            var bf = new boxBlur(10) 
 
             img.onload = function(){
 
@@ -25,7 +27,7 @@ Sobel Filter test
               ctx.putImageData(cda,0,0)
 
             }
-             img.src="../imgs/goboard.jpg"
+             img.src="../imgs/walkway.jpg"
             //img.src="../imgs/walkway.jpg"
             document.getElementById('pic').appendChild(img)
           </script>
@@ -34,7 +36,7 @@ Sobel Filter test
 <body>
 <div>
   <h2>
-  Sobel Filter test
+  Box blur test
   </h2>
   </div>
   <br>
